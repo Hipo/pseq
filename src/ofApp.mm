@@ -23,6 +23,7 @@ void ofApp::setup(){
     ofSetFrameRate(30);
     ofSetLogLevel(OF_LOG_VERBOSE);
     
+    vidGrabber.setUseTexture(false);
     vidGrabber.initGrabber(camWidth, camHeight, OF_PIXELS_BGRA);
 	colorImg.allocate(camWidth, camHeight);
     grayImage.allocate(camWidth, camHeight);
