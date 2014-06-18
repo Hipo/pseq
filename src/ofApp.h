@@ -11,15 +11,28 @@
 #include "Sequencer.h"
 
 
-using namespace msa;
+// Comment to disable CoreMotion Framework
+#define _USE_CORE_MOTION
 
+
+#ifdef _USE_CORE_MOTION
+#include "ofxCoreMotion.h"
+#endif
 
 #define camWidth    480
 #define camHeight   360
 
 
+using namespace msa;
+
+
 class ofApp : public ofxiOSApp {
 	
+#ifdef _USE_CORE_MOTION
+    ofxCoreMotion coreMotion;
+    ofCamera camera;
+#endif
+    
     ofRectangle themeRect;
     
     float       drawResizeFactor = 1.68f;
@@ -27,6 +40,8 @@ class ofApp : public ofxiOSApp {
     int         lastStep;
     int         totalSteps;
     int         currentStep;
+    
+    bool        retina;
     
 public:
     

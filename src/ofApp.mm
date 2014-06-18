@@ -23,6 +23,15 @@ void ofApp::setup(){
     ofSetFrameRate(30);
     ofSetLogLevel(OF_LOG_VERBOSE);
     
+#ifdef _USE_CORE_MOTION
+    camera.setupPerspective();
+    camera.setVFlip(false);
+    camera.setPosition(0, 0, 0);
+    
+    coreMotion.setupAttitude(CMAttitudeReferenceFrameXMagneticNorthZVertical);
+#endif
+    
+    vidGrabber.setUseTexture(false);
     vidGrabber.initGrabber(camWidth, camHeight, OF_PIXELS_BGRA);
 	colorImg.allocate(camWidth, camHeight);
     grayImage.allocate(camWidth, camHeight);
@@ -87,6 +96,15 @@ void ofApp::setup(){
 void ofApp::update(){
     
     vidGrabber.update();
+    
+#ifdef _USE_CORE_MOTION
+    coreMotion.update();
+    
+    // attitude- quaternion
+    ofQuaternion quat = coreMotion.getQuaternion();
+    ofQuaternion landscapeFix(-quat.y(), quat.x(), quat.z(), quat.w());
+    camera.setOrientation(landscapeFix);
+#endif
     
     unsigned char * src = vidGrabber.getPixels();
 	int totalPix = vidGrabber.getWidth() * vidGrabber.getHeight() * 3;
@@ -167,7 +185,82 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-	ofBackground(ofColor::black);
+    ofBackground(ofColor::black);
+    
+#ifdef _USE_CORE_MOTION
+    
+    ofQuaternion quat = coreMotion.getQuaternion();
+    ofDrawBitmapString(ofToString(quat.x(),3), 20, 50);
+    ofDrawBitmapString(ofToString(quat.y(),3), 90, 50);
+    ofDrawBitmapString(ofToString(quat.z(),3), 160, 50);
+    ofDrawBitmapString(ofToString(quat.w(),3), 230, 50);
+    
+    // attitude- roll,pitch,yaw
+    ofDrawBitmapStringHighlight("Attitude: (roll,pitch,yaw)", 20, 75);
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(coreMotion.getRoll(),3), 20, 100);
+    ofDrawBitmapString(ofToString(coreMotion.getPitch(),3), 120, 100);
+    ofDrawBitmapString(ofToString(coreMotion.getYaw(),3), 220, 100);
+    
+    // accelerometer
+    ofVec3f a = coreMotion.getAccelerometerData();
+    ofDrawBitmapStringHighlight("Accelerometer: (x,y,z)", 20, 125);
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(a.x,3), 20, 150);
+    ofDrawBitmapString(ofToString(a.y,3), 120, 150);
+    ofDrawBitmapString(ofToString(a.z,3), 220, 150);
+    
+    // gyroscope
+    ofVec3f g = coreMotion.getGyroscopeData();
+    ofDrawBitmapStringHighlight("Gyroscope: (x,y,z)", 20, 175);
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(g.x,3), 20, 200 );
+    ofDrawBitmapString(ofToString(g.y,3), 120, 200 );
+    ofDrawBitmapString(ofToString(g.z,3), 220, 200 );
+    
+    // magnetometer
+    ofVec3f m = coreMotion.getMagnetometerData();
+    ofDrawBitmapStringHighlight("Magnetometer: (x,y,z)", 20, 225);
+    ofSetColor(255);
+    ofDrawBitmapString(ofToString(m.x,3), 20, 250);
+    ofDrawBitmapString(ofToString(m.y,3), 120, 250);
+    ofDrawBitmapString(ofToString(m.z,3), 220, 250);
+    
+    ofPushMatrix();
+    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+    
+    // 1) quaternion rotations
+    float angle;
+    ofVec3f axis;//(0,0,1.0f);
+    quat.getRotate(angle, axis);
+    ofRotate(angle, axis.y, -axis.x, axis.x); // rotate with quaternion
+    
+    // 2) rotate by multiplying matrix directly
+    //ofMatrix4x4 mat = coreMotion.getRotationMatrix();
+    //mat.rotate(180, 0, -1.0f, 0);
+    //ofMultMatrix(mat); // OF 0.74: glMultMatrixf(mat.getPtr());
+    
+    // 3) rotate with eulers
+    //ofRotateX( ofRadToDeg( coreMotion.getPitch() ) );
+    //ofRotateY( -ofRadToDeg( coreMotion.getRoll() ) );
+    //ofRotateZ( ofRadToDeg( coreMotion.getYaw() ) );
+    
+    ofPushMatrix();
+    //ofRotate(90, 1, 0, 0);
+    sequencerFbo.draw(-sequencerFbo.getWidth()/2, -sequencerFbo.getHeight()/2);
+    ofPopMatrix();
+    
+    ofNoFill();
+    ofDrawBox(0, 0, 0, 500); // OF 0.74: ofBox(0, 0, 0, 220);
+    ofDrawAxis(250);
+    ofPopMatrix();
+    
+    ofFill();
+    ofDrawBitmapString(ofToString("Double tap to reset \nAttitude reference frame"), 20, ofGetHeight() - 50);
+    
+#else
+    
+    ofBackground(ofColor::black);
     
     // Draw background
     currentTheme->background.draw(0, 0, ofGetWidth(), ofGetHeight());
@@ -183,6 +276,8 @@ void ofApp::draw(){
     // Draw sequencer
     sequencerFbo.draw(0, 0);
     ofPopMatrix();
+    
+#endif
 }
 
 //--------------------------------------------------------------
