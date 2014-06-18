@@ -14,6 +14,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		207E7A10194A5E2500F7E0D3 /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 207E7A0E194A5E2500F7E0D3 /* SettingsViewController.mm */; };
 		207E7A11194A5E2500F7E0D3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 207E7A0F194A5E2500F7E0D3 /* SettingsViewController.xib */; };
+		20AD71451952436F0066B8E3 /* ofxCoreMotion.mm in Sources */ = {isa = PBXBuildFile; fileRef = 20AD71221952436F0066B8E3 /* ofxCoreMotion.mm */; };
+		20AD7151195243B70066B8E3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20AD7150195243B70066B8E3 /* CoreMotion.framework */; };
 		250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE9C7160245B19131DAE6128 /* ofxCvColorImage.cpp */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		360D5B74D6C18FC57E0A099D /* ofxTweener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D852339534D186876F18A318 /* ofxTweener.cpp */; };
@@ -89,6 +91,9 @@
 		207E7A0D194A5E2500F7E0D3 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = gui/SettingsViewController.h; sourceTree = "<group>"; };
 		207E7A0E194A5E2500F7E0D3 /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SettingsViewController.mm; path = gui/SettingsViewController.mm; sourceTree = "<group>"; };
 		207E7A0F194A5E2500F7E0D3 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsViewController.xib; path = gui/SettingsViewController.xib; sourceTree = "<group>"; };
+		20AD71211952436F0066B8E3 /* ofxCoreMotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCoreMotion.h; sourceTree = "<group>"; };
+		20AD71221952436F0066B8E3 /* ofxCoreMotion.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxCoreMotion.mm; sourceTree = "<group>"; };
+		20AD7150195243B70066B8E3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		2857B27276A2E76DDED1C528 /* SequencerTheme.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = SequencerTheme.mm; path = src/SequencerTheme.mm; sourceTree = SOURCE_ROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
@@ -231,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41D421413B3A95300A75A5D /* libofxiOS_iphoneos_Debug.a in Frameworks */,
+				20AD7151195243B70066B8E3 /* CoreMotion.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -384,6 +390,24 @@
 			name = gui;
 			sourceTree = "<group>";
 		};
+		20AD70EB1952436F0066B8E3 /* ofxCoreMotion */ = {
+			isa = PBXGroup;
+			children = (
+				20AD71201952436F0066B8E3 /* src */,
+			);
+			name = ofxCoreMotion;
+			path = ../../../addons/ofxCoreMotion/ofxCoreMotion;
+			sourceTree = "<group>";
+		};
+		20AD71201952436F0066B8E3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				20AD71211952436F0066B8E3 /* ofxCoreMotion.h */,
+				20AD71221952436F0066B8E3 /* ofxCoreMotion.mm */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +428,7 @@
 		29B97323FDCFA39411CA2CEA /* core frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				20AD7150195243B70066B8E3 /* CoreMotion.framework */,
 				E41D400613B39D2100A75A5D /* AVFoundation.framework */,
 				E41D400713B39D2100A75A5D /* CoreMedia.framework */,
 				E41D400813B39D2100A75A5D /* CoreVideo.framework */,
@@ -613,6 +638,7 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				20AD70EB1952436F0066B8E3 /* ofxCoreMotion */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				4287FB85EE839C571DBDDCAC /* ofxMSABPMTapper */,
 				734AC65571ADBB395C126C1A /* ofxMSAInteractiveObject */,
@@ -762,6 +788,9 @@
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = YGQRYMCYG9;
 						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
 							com.apple.iOS = {
 								enabled = 0;
 							};
@@ -856,6 +885,7 @@
 				87DFA153E2855A05BBCCFF86 /* MSABPMTapper.cpp in Sources */,
 				D1395DD979998DCFFA40ACAC /* ofxMSAInteractiveObject.cpp in Sources */,
 				04BFA09E012998240B6D10D5 /* ofxTransitions.cpp in Sources */,
+				20AD71451952436F0066B8E3 /* ofxCoreMotion.mm in Sources */,
 				360D5B74D6C18FC57E0A099D /* ofxTweener.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
